@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documento de Estudante</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body class="bg-gray-100 flex justify-center items-center">
+<body id="body" class="bg-gray-100 flex justify-center items-center">
 
     <div class="bg-white w-96 shadow-lg overflow-hidden border border-black">
         <!-- Cabeçalho -->
@@ -17,8 +18,8 @@
         <!-- Informações do estudante -->
         <div class="py-12 text-sm text-gray-700">
             <p class="text-center">
-                INSTITUIÇÃO DO ALUNO atesta que <b>NOME DO ALUNO</b> é estudante e está regularmente matriculado(a)
-                em Ensino Técnico na instituição <b>INSTITUIÇÃO DO ALUNO</b>.
+                <b id="emissor1">Emissor do Documento</b> atesta que <b id="nomeAluno1">NOME DO ALUNO</b> é estudante e está regularmente matriculado(a)
+                em Ensino Técnico na instituição <b id="instituicao1">INSTITUIÇÃO DO ALUNO</b>.
             </p>
         </div>
 
@@ -26,31 +27,67 @@
         <table class="w-full border-t border-black text-sm">
             <tr class="pl-6 border-b border-black flex  flex-col justify-start items-start">
                 <td class="font-semibold ">Nome:</td>
-                <td class="text-xs" >NOME DO ALUNO</td>
+                <td class="text-xs" id="nomeAluno2" >NOME DO ALUNO</td>
             </tr>
             <tr class="pl-6 border-b border-black flex  flex-col justify-start items-start">
                 <td class="font-semibold ">Instituição:</td>
-                <td class="text-xs" >INSTITUIÇÃO DO ALUNO</td>
+                <td class="text-xs" id="instituicao2" >INSTITUIÇÃO DO ALUNO</td>
             </tr>
             <tr class="pl-6 border-b border-black flex  flex-col justify-start items-start">
                 <td class="font-semibold ">Curso:</td>
-                <td class="text-xs" >CURSO DO ALUNO</td>
+                <td class="text-xs" id="curso" >CURSO DO ALUNO</td>
             </tr>
             <tr class="pl-6 border-b border-black flex  flex-col justify-start items-start">
                 <td class="font-semibold">Documento de identificação:</td>
-                <td class="text-xs" >DOCUMENTO DO ALUNO</td>
+                <td class="text-xs" id="documento" >DOCUMENTO DO ALUNO</td>
             </tr>
             <tr class="pl-6 border-b border-black flex  flex-col justify-start items-start">
                 <td class="font-semibold">Emissor:</td>
-                <td class="text-xs" > EMBSOR DO ALUNO </td>
+                <td class="text-xs" id="emissor2"> Emissor do Documento </td>
             </tr>
         </table>
 
         <!-- Imagem -->
         <div class="flex justify-center p-4">
-            <img src="image.png" alt="Foto do estudante" class="w-24 h-auto border rounded">
+            <img id="foto" src="image.png" alt="Foto do estudante" class="w-24 h-auto border rounded">
         </div>
     </div>
+
+    <script>
+    $(document).ready(function() {
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Verifica múltiplos parâmetros
+        var nomeAluno = getUrlParameter('nomeAluno');
+        var instituicao = getUrlParameter('instituicao');
+        var curso = getUrlParameter('curso');
+        var documento = getUrlParameter('documento');
+        var emissor = getUrlParameter('emissor');
+        var fotoId = getUrlParameter('fotoId');
+
+        // Verifica se todos os parâmetros existem
+        if (!nomeAluno || !instituicao || !curso || !documento || !emissor || !fotoId) {
+            document.getElementById('body').style.display = 'none';
+            return;
+        }
+
+        // Se chegou aqui, todos os parâmetros existem
+        document.getElementById('nomeAluno1').textContent = nomeAluno.toUpperCase();
+        document.getElementById('nomeAluno2').textContent = nomeAluno.toUpperCase();
+        document.getElementById('instituicao1').textContent = instituicao.toUpperCase();
+        document.getElementById('instituicao2').textContent = instituicao.toUpperCase();
+        document.getElementById('curso').textContent = curso.toUpperCase();
+        document.getElementById('documento').textContent = documento;
+        document.getElementById('emissor1').textContent = emissor.toUpperCase();
+        document.getElementById('emissor2').textContent = emissor.toUpperCase();
+        document.getElementById('foto').src = `https://drive.google.com/thumbnail?id=${fotoId}`;
+    });
+    </script>
 
 </body>
 </html>
